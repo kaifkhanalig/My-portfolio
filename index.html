@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="login-container">
+        <h2>Login</h2>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="login()">Login</button>
+        <p id="login-error" style="color: rgb(212, 63, 63); display: none;">Invalid username or password. Try again!</p>
+    </div>
+
+    <div id="dashboard" style="display: none;">
+        <h2>Welcome, <span id="user-name"></span></h2>
+        <button onclick="showForm()">Create Your Portfolio</button>
+        <div id="portfolio-form" style="display: none;">
+            <input type="text" id="name" placeholder="Your Name">
+            <textarea id="bio" placeholder="Short Bio"></textarea>
+            <input type="text" id="skills" placeholder="Skills (comma separated)">
+            <input type="text" id="projects" placeholder="Projects (comma separated)">
+            <button onclick="createPortfolio()">Submit</button>
+        </div>
+        <div id="portfolio-container"></div>
+    </div>
+    
+    <script>
+        const user = {
+            username: "kaifkhan",
+            password: "Kaif8877@"
+        };
+
+        function login() {
+            const enteredUsername = document.getElementById("username").value;
+            const enteredPassword = document.getElementById("password").value;
+            
+            if (enteredUsername === user.username && enteredPassword === user.password) {
+                alert("Login successful!");
+                document.getElementById("login-container").style.display = "none";
+                document.getElementById("dashboard").style.display = "block";
+                document.getElementById("user-name").innerText = enteredUsername;
+            } else {
+                document.getElementById("login-error").style.display = "block";
+            }
+        }
+
+        function showForm() {
+            document.getElementById("portfolio-form").style.display = "block";
+        }
+
+        function createPortfolio() {
+            const name = document.getElementById("name").value;
+            const bio = document.getElementById("bio").value;
+            const skills = document.getElementById("skills").value;
+            const projects = document.getElementById("projects").value;
+            
+            if (!name || !bio || !skills || !projects) {
+                alert("Please fill all fields.");
+                return;
+            }
+            
+            const portfolioCard = `
+                <div class="portfolio-card">
+                    <h3>${name}</h3>
+                    <p>${bio}</p>
+                    <p><strong>Skills:</strong> ${skills}</p>
+                    <p><strong>Projects:</strong> ${projects}</p>
+                    <button onclick="deletePortfolio(this)">Delete</button>
+                </div>
+            `;
+            
+            document.getElementById("portfolio-container").innerHTML += portfolioCard;
+        }
+
+        function deletePortfolio(button) {
+            button.parentElement.remove();
+        }
+    </script>
+</body>
+</html>
